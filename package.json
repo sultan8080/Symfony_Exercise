@@ -24,6 +24,7 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "@expo-google-fonts/cairo": "^0.2.2",
         "bootstrap": "4.4.1",
         "font-awesome": "^4.7.0",
         "jquery": "^3.6.3",

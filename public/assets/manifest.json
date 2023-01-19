@@ -1,6 +1,11 @@
 {
-  "assets/app.css": "/assets/app.da2ee36c.css",
+  "assets/app.css": "/assets/app.85daeb42.css",
   "assets/app.js": "/assets/app.8e899af6.js",
   "assets/runtime.js": "/assets/runtime.7527e1df.js",
-  "assets/891.5dd62352.js": "/assets/891.5dd62352.js"
+  "assets/891.5dd62352.js": "/assets/891.5dd62352.js",
+  "assets/images/fontawesome-webfont.svg?v=4.7.0": "/assets/images/fontawesome-webfont.c1e38fd9.svg",
+  "assets/fonts/fontawesome-webfont.eot": "/assets/fonts/fontawesome-webfont.8b43027f.eot",
+  "assets/fonts/fontawesome-webfont.ttf?v=4.7.0": "/assets/fonts/fontawesome-webfont.1e59d233.ttf",
+  "assets/fonts/fontawesome-webfont.woff?v=4.7.0": "/assets/fonts/fontawesome-webfont.f691f37e.woff",
+  "assets/fonts/fontawesome-webfont.woff2?v=4.7.0": "/assets/fonts/fontawesome-webfont.20fd1704.woff2"
 }
