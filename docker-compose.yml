@@ -1,6 +1,11 @@
 version: '3'
 
 services:
+        # maildev:
+        #   image: maildev/maildev
+        #    ports:
+        #        - "1080:1080"
+               
 ###> doctrine/doctrine-bundle ###
   database:
     image: postgres:${POSTGRES_VERSION:-15}-alpine
