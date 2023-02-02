@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Security\LoginFormAuthenticator;
 use App\Service\MailerService;
+use DateTime;
 use Doctrine\Common\Lexer\Token;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,18 +16,25 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, 
-    
-    LoginFormAuthenticator $authenticator, EntityManagerInterface $entityManager, MailerService $mailerService, TokenGeneratorInterface $tokenGeneratorInterface,
-    
-    
-    ): Response
-    {
+    public function register(
+        Request $request,
+        UserPasswordHasherInterface $userPasswordHasher,
+        UserAuthenticatorInterface $userAuthenticator,
+
+        LoginFormAuthenticator $authenticator,
+        EntityManagerInterface $entityManager,
+        MailerService $mailerService,
+        TokenGeneratorInterface $tokenGeneratorInterface,
+
+
+    ): Response {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
@@ -48,15 +56,15 @@ class RegistrationController extends AbstractController
 
 
             // Mailer 
-            
+
             $mailerService->send(
                 $user->getEmail(),
                 'Confirmation du compte utilisateur',
                 'registration_confirmation.html.twig',
                 [
-                    'user'=>$user,
-                    'token'=>$tokenRegistration,
-                    'lifeTimeToken' => $user->getTokenRegistrationLifeTime()->format('Y-m-d H:i:s')
+                    'user' => $user,
+                    'token' => $tokenRegistration,
+                    'lifeTimeToken' => $user->getTokenRegistrationLifeTime()->format('d-m-Y H:i:s')
                 ]
             );
 
@@ -75,8 +83,28 @@ class RegistrationController extends AbstractController
             'registrationForm' => $form->createView(),
         ]);
     }
-    #[Route('/verify', name: 'account_verify')]
-    public function verify(string $token, User $user){
-        dd($token);
+    // #[Route('/verify/{token}/{id<\d+>}', name: 'account_verify', methods:['GET'])]
+    // public function verify(string $token, User $user){
+    //     dd($token);
+    // }
+    #[Route('/verify/{token}/{id<\d+>}', name: 'account_verify', methods: ['GET'])]
+    public function verify(string $token, User $user, EntityManagerInterface $em): Response
+    {
+
+        if ($user->getTokenRegistration() !== $token) {
+            throw new AccessDeniedException();
+        }
+        if ($user->getTokenRegistration() === null) {
+            throw new AccessDeniedException();
+        }
+        if (new DateTime('now') > $user->getTokenRegistrationLifeTime()) {
+            throw new AccessDeniedException();
+        }
+
+        $user->setIsVerified(true);
+        $user->setTokenRegistration(null);
+        $em->flush();
+        $this->addFlash('success', 'Votre compte a bien été active, vous pouvez maintenant vous connecter.');
+        return $this->redirectToRoute('app_login');
     }
 }
