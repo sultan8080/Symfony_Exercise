@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use DateInterval;
 use DateTime;
 use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
@@ -38,6 +39,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __construct()
     {
         $this->createdAt = new DateTimeImmutable('now');
+        $this->isVerified = 'false';
+        $this->tokenRegistrationLifeTime = (new DateTime('now'))->add(new DateInterval("P1D"));
     }
 
     #[ORM\Column(length: 255)]

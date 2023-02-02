@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Security\LoginFormAuthenticator;
 use App\Service\MailerService;
+use Doctrine\Common\Lexer\Token;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -55,7 +56,7 @@ class RegistrationController extends AbstractController
                 [
                     'user'=>$user,
                     'token'=>$tokenRegistration,
-                    'lifeTimeToken' => $user->getTokenRegistrationLifeTime()->format('d-m-Y-H-i-s')
+                    'lifeTimeToken' => $user->getTokenRegistrationLifeTime()->format('Y-m-d H:i:s')
                 ]
             );
 
@@ -73,5 +74,9 @@ class RegistrationController extends AbstractController
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
+    }
+    #[Route('/verify', name: 'account_verify')]
+    public function verify(string $token, User $user){
+        dd($token);
     }
 }
