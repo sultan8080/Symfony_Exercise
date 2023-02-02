@@ -12,6 +12,7 @@
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
+        {% include '_partials/_flash.html.twig' %}
     </head>
     <body>
         {% block body %}{% endblock %}
