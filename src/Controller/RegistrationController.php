@@ -34,6 +34,8 @@ class RegistrationController extends AbstractController
 
             $entityManager->persist($user);
             $entityManager->flush();
+
+            $this->addFlash('success', 'Votre compte à bien été crée, Veuillez vérifier vos emails pour l\'activer.');
             // do anything else you need here, like send an email
 
             return $userAuthenticator->authenticateUser(
