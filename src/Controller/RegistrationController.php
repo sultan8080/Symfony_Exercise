@@ -83,10 +83,7 @@ class RegistrationController extends AbstractController
             'registrationForm' => $form->createView(),
         ]);
     }
-    // #[Route('/verify/{token}/{id<\d+>}', name: 'account_verify', methods:['GET'])]
-    // public function verify(string $token, User $user){
-    //     dd($token);
-    // }
+   
     #[Route('/verify/{token}/{id<\d+>}', name: 'account_verify', methods: ['GET'])]
     public function verify(string $token, User $user, EntityManagerInterface $em): Response
     {
