@@ -20,6 +20,8 @@ security:
             logout:
                 path: app_logout
                 target: app_login
+                
+            user_checker: App\Security\UserChecker
                 # where to redirect after logout
                 # target: app_any_route
 
