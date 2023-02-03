@@ -100,7 +100,6 @@ class RegistrationController extends AbstractController
         if (new DateTime('now') > $user->getTokenRegistrationLifeTime()) {
             throw new AccessDeniedException();
         }
-
         $user->setIsVerified(true);
         $user->setTokenRegistration(null);
         $em->flush();

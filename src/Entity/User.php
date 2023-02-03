@@ -36,12 +36,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
-    public function __construct()
-    {
-        $this->createdAt = new DateTimeImmutable('now');
-        $this->isVerified = 'false';
-        $this->tokenRegistrationLifeTime = (new DateTime('now'))->add(new DateInterval("P1D"));
-    }
+  
 
     #[ORM\Column(length: 255)]
     private ?string $UserName = null;
@@ -53,8 +48,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?\DateTimeInterface $tokenRegistrationLifeTime = null;
 
     #[ORM\Column]
-    private ?bool $isVerified = null;
+    private ?bool $isVerified = false;
 
+    public function __construct()
+    {
+        $this->createdAt = new DateTimeImmutable('now');
+        $this->isVerified = false;
+        $this->tokenRegistrationLifeTime = (new DateTime('now'))->add(new DateInterval("P1D"));
+    }
 
       public function getId(): ?int
     {
