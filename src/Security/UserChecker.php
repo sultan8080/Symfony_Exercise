@@ -29,7 +29,7 @@ class UserChecker implements UserCheckerInterface
         }
         if (!$user->isIsVerified()) {
             // the message passed to this exception is meant to be displayed to the user
-            throw new CustomUserMessageAccountStatusException("Votre compte n\'est pas vérifié, merci de le confirmer avant le {$user->getTokenRegistrationLifeTime()->format('d/m/Y à H\hi')}");
+            throw new CustomUserMessageAccountStatusException("Votre compte n'est pas vérifié encore, merci de le confirmer avant le {$user->getTokenRegistrationLifeTime()->format('d/m/Y à H\hi')}");
         }
 
         // user account is expired, the user may be notified
